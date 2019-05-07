@@ -22,7 +22,7 @@ public class CommonMethod {
 	public static void getStockDetail() {
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
 		 
-		 for(int i=2000;i<=2500;i++) {
+		 for(int i=3000;i<=3200;i++) {
 			 try {
 			 detailList.add(getDetail(i));
 			 }catch(Exception e) {
@@ -713,6 +713,17 @@ public static Detail getDetail(int id) throws IOException {
 			}else {
 				result.setThird("x");
 			}
+			
+			
+			if(Double.parseDouble(detail.getPrice()) < 35) {
+				result.setFour("v");
+				total++;
+			}else {
+				result.setFour("x");
+				
+			}
+			
+			
 			result.setTotal(total);
 			
 //			System.out.println(result.toString());
@@ -730,7 +741,7 @@ public static Detail getDetail(int id) throws IOException {
 		buffer.append("-------------------------------\r\n");
 		buffer.append("yahoo 選股結果\r\n");
 		for(int i=0;i<resultList.size();i++) {
-			if(resultList.get(i).getTotal() == 3) {
+			if(resultList.get(i).getTotal() == 4) {
 				String id=resultList.get(i).getID();
 				for(int j=0;j<detailList.size();j++) {
 					Detail detail=detailList.get(j);
