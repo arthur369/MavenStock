@@ -19,18 +19,18 @@ import com.google.gson.reflect.TypeToken;
 
 public class CommonMethod {
 
-	public static void getStockDetail() {
+	public static void getStockDetail() throws IOException {
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
+//		 
+//		 for(int i=1000;i<=9999;i++) {
+//			 try {
+//			 detailList.add(getDetail(i));
+//			 }catch(Exception e) {
+//				 System.out.println(i+"Data not found");
+//			 }
+//		 }
 		 
-		 for(int i=3000;i<=3200;i++) {
-			 try {
-			 detailList.add(getDetail(i));
-			 }catch(Exception e) {
-				 System.out.println(i+"Data not found");
-			 }
-		 }
-		 
-		 
+//1108 	1222	1225 
 		 
 //		 ArrayList<Integer> stockList=new ArrayList<Integer>();
 //		 stockList.add(2812);
@@ -57,6 +57,27 @@ public class CommonMethod {
 //				 System.out.println("----------------------");
 //			 }
 //		 }
+		 
+		 
+		 
+		 //debug list
+		 ArrayList<Integer> stockList=new ArrayList<Integer>();
+		 stockList.add(1446);
+		 stockList.add(1447);
+		 stockList.add(1449);
+		 stockList.add(1451);
+		 for(int i=0;i<stockList.size();i++) {
+			 try {
+				 detailList.add(getDetail(stockList.get(i)));
+			 System.out.println("----------------------");
+			 }catch(Error e) {
+				 System.out.println(stockList.get(i)+"Data not found");
+				 System.out.println("----------------------");
+			 }
+		 }
+		 
+		 
+		 
 		 
 		Gson gson=new Gson(); 
 		String json=gson.toJson(detailList);
@@ -272,7 +293,7 @@ public static Detail getDetail(int id) throws IOException {
 				target=target.nextElementSibling();
 //				System.out.println("target.text= "+target.text());
 			}
-			epsList.add(Double.parseDouble(target.text()));
+			epsList.add(Double.parseDouble(target.text().equals("-")?"0":target.text()));
 //			epsList.add(Double.parseDouble(getValue(doc,query,"td").nextElementSibling().text()));
 			
 			quarter=quarter-1;
@@ -325,8 +346,8 @@ public static Detail getDetail(int id) throws IOException {
 //		System.out.println("YearROE= "+YearROE);
 //		System.out.println("lastYearROE= "+lastYearROE);
 		
-		String YearROEadd=((Double.parseDouble(YearROE)-Double.parseDouble(lastYearROE))*100/Double.parseDouble(YearROE))+"";
-		detail.setYearROE(YearROE);
+		String YearROEadd=((Double.parseDouble(YearROE.equals("")?"0":YearROE)-Double.parseDouble(lastYearROE.equals("")?"0":lastYearROE))*100/Double.parseDouble(YearROE.equals("")?"0":YearROE))+"";
+		detail.setYearROE(YearROE.equals("")?"0":YearROE);
 		detail.setYearROEadd(YearROEadd);
 		
 		
@@ -343,7 +364,7 @@ public static Detail getDetail(int id) throws IOException {
 		
 		
 		String PER=getValue(doc,getDay().substring(0,4)+"/"+month,"td").nextElementSibling().text();
-		Double.parseDouble(PER);
+		PER=Double.parseDouble(PER.equals("-")?"0":PER)+"";
 		
 		detail.setPER(PER);
 		
@@ -375,7 +396,7 @@ public static Detail getDetail(int id) throws IOException {
 		String taiwanQuarter=(Integer.parseInt(newestQuarter.substring(0,4))-1911)+"年0"+newestQuarter.substring(5)+"季";
 		
 //		System.out.println("taiwanQuarter= "+taiwanQuarter);
-		String GPM=getValue(doc,taiwanQuarter,"td").nextElementSibling().nextElementSibling().text().substring(0,5);
+		String GPM=getValue(doc,taiwanQuarter,"td")==null?"0":getValue(doc,taiwanQuarter,"td").nextElementSibling().nextElementSibling().text().substring(0,5).replace("%", "");
 		String lastQuarter;
 		
 //		if(Integer.parseInt(newestQuarter.substring(5))-1<1) {
@@ -390,8 +411,9 @@ public static Detail getDetail(int id) throws IOException {
 		
 //		System.out.println("taiwanLastQuarter= "+taiwanLastQuarter);
 		
+		String lastGPM=getValue(doc,taiwanLastQuarter,"td")==null?"0":getValue(doc,taiwanLastQuarter,"td").nextElementSibling().nextElementSibling().text();
 		
-		String lastGPM=getValue(doc,taiwanLastQuarter,"td").nextElementSibling().nextElementSibling().text().substring(0,5);
+		 lastGPM=lastGPM.equals("0")?"0":lastGPM.substring(0,5).replace("%", "");
 		System.out.println("GPM= "+GPM);
 		System.out.println("lastGPM= "+lastGPM);
 		
@@ -438,7 +460,8 @@ public static Detail getDetail(int id) throws IOException {
 		for(int i=0;i<8;i++) {
 			String query=year+"Q"+quarter;
 //			System.out.println("query= "+query);
-			profitList.add(Double.parseDouble(getValue(doc,query,"td").nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().text().replace(",", "")));
+			Element profitListElement=getValue(doc,query,"td");
+			profitList.add(Double.parseDouble(profitListElement == null?"0":profitListElement.nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().text().replace(",", "")));
 			
 			quarter=quarter-1;
 			if(quarter<1) {
@@ -504,7 +527,7 @@ public static Detail getDetail(int id) throws IOException {
 		yahooYearEPS.add(Double.parseDouble(epsTarget.nextElementSibling().child(5).text().replace("元", "")));
 		yahooYearEPS.add(Double.parseDouble(epsTarget.nextElementSibling().nextElementSibling().child(5).text().replace("元", "")));
 		yahooYearEPS.add(Double.parseDouble(epsTarget.nextElementSibling().nextElementSibling().nextElementSibling().child(5).text().replace("元", "")));
-		yahooYearEPS.add(Double.parseDouble(epsTarget.nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().child(5).text().replace("元", "")));
+		yahooYearEPS.add(Double.parseDouble(epsTarget.nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().child(5).text().replace("元", "").equals("-")?"0":epsTarget.nextElementSibling().nextElementSibling().nextElementSibling().nextElementSibling().child(5).text().replace("元", "")));
 		
 		
 		detail.setYahooYearEPS(yahooYearEPS);
