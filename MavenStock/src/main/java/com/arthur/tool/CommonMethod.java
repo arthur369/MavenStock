@@ -746,6 +746,15 @@ public static Detail getDetail(int id) throws IOException {
 				
 			}
 			
+			if(countYearAdd(yahooYearEPS.get(0),yahooYearEPS.get(1))>=10 && countYearAdd(yahooYearEPS.get(1),yahooYearEPS.get(2))>=10 &&countYearAdd(yahooYearEPS.get(2),yahooYearEPS.get(3))>=10 &&countYearAdd(yahooYearEPS.get(3),yahooYearEPS.get(4))>=10 ) {
+				result.setFive("v");
+			}else {
+				result.setFive("x");
+			}
+			
+			
+			
+			
 			
 			result.setTotal(total);
 			
@@ -792,5 +801,13 @@ public static Detail getDetail(int id) throws IOException {
 		LogWriter.writeAudit("D:\\Stock\\SelectResult"+getDay(),buffer.toString(), 1, "utf-8", true);
 //		System.out.println(buffer.toString());
 	}
+	
+	
+	public static Double countYearAdd(Double newYearData,Double lastYearData) {
+		return (newYearData-lastYearData)*100/lastYearData;
+		
+	}
+	
+	
 	
 }
