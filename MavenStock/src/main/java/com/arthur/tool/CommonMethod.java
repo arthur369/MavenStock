@@ -21,14 +21,14 @@ public class CommonMethod {
 
 	public static void getStockDetail() throws IOException {
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
-//		 
-//		 for(int i=1000;i<=9999;i++) {
-//			 try {
-//			 detailList.add(getDetail(i));
-//			 }catch(Exception e) {
-//				 System.out.println(i+"Data not found");
-//			 }
-//		 }
+		 
+		 for(int i=1000;i<=9999;i++) {
+			 try {
+			 detailList.add(getDetail(i));
+			 }catch(Exception e) {
+				 System.out.println(i+"Data not found");
+			 }
+		 }
 		 
 //1108 	1222	1225 
 		 
@@ -61,20 +61,20 @@ public class CommonMethod {
 		 
 		 
 		 //debug list
-		 ArrayList<Integer> stockList=new ArrayList<Integer>();
-		 stockList.add(1446);
-		 stockList.add(1447);
-		 stockList.add(1449);
-		 stockList.add(1451);
-		 for(int i=0;i<stockList.size();i++) {
-			 try {
-				 detailList.add(getDetail(stockList.get(i)));
-			 System.out.println("----------------------");
-			 }catch(Error e) {
-				 System.out.println(stockList.get(i)+"Data not found");
-				 System.out.println("----------------------");
-			 }
-		 }
+//		 ArrayList<Integer> stockList=new ArrayList<Integer>();
+//		 stockList.add(1446);
+//		 stockList.add(1447);
+//		 stockList.add(1449);
+//		 stockList.add(1451);
+//		 for(int i=0;i<stockList.size();i++) {
+//			 try {
+//				 detailList.add(getDetail(stockList.get(i)));
+//			 System.out.println("----------------------");
+//			 }catch(Error e) {
+//				 System.out.println(stockList.get(i)+"Data not found");
+//				 System.out.println("----------------------");
+//			 }
+//		 }
 		 
 		 
 		 
