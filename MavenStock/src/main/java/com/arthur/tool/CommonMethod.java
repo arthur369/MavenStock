@@ -809,5 +809,26 @@ public static Detail getDetail(int id) throws IOException {
 	}
 	
 	
+	public static boolean checkYearAddMoreThenCount(ArrayList<Double> list,int count) {
+		boolean result=true;
+		for(int i=0;i<list.size()-1;i++) {
+			Double first=list.get(i);
+			Double second=list.get(i+1);
+			if(countYearAdd(first,second)<count) {
+				result=false;
+			}
+			
+		}
+		
+		
+		
+		
+		return result;
+		
+	}
+	
+	
+	
+	
 	
 }
