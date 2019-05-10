@@ -12,23 +12,39 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.arthur.runnable.SearchTask;
 import com.arthur.vo.Detail;
 import com.arthur.vo.Result;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import edu.emory.mathcs.backport.java.util.concurrent.ExecutionException;
+import edu.emory.mathcs.backport.java.util.concurrent.FutureTask;
+
 public class CommonMethod {
 
-	public static void getStockDetail() throws IOException {
+	public static void getStockDetail() throws IOException, InterruptedException, ExecutionException {
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
-		 
-		 for(int i=1000;i<=9999;i++) {
-			 try {
-			 detailList.add(getDetail(i));
-			 }catch(Exception e) {
-				 System.out.println(i+"Data not found");
-			 }
-		 }
+		
+		
+		ArrayList<FutureTask>taskList= createThread(400,9999);
+		
+		
+		
+		for(int i=0;i<taskList.size();i++) {
+			detailList=loadList(detailList,(ArrayList<Detail>)taskList.get(i).get());
+		}
+		
+		
+		
+		
+//		 for(int i=1000;i<=9999;i++) {
+//			 try {
+//			 detailList.add(getDetail(i));
+//			 }catch(Exception e) {
+//				 System.out.println(i+"Data not found");
+//			 }
+//		 }
 		 
 //1108 	1222	1225 
 		 
@@ -828,6 +844,37 @@ public static Detail getDetail(int id) throws IOException {
 	}
 	
 	
+	
+	public static <E> ArrayList<E> loadList(ArrayList<E>parentList , ArrayList<E> childList){
+		
+		for(int i=0;i<childList.size();i++) {
+			parentList.add(childList.get(i));
+		}
+		
+		
+		return parentList;
+		
+	}
+	
+	
+	//建立多執行緒來跑 參數threadNumber:要開幾個執行緒  endNumber:要查到第幾號
+	public static ArrayList<FutureTask> createThread(int threadNumber,int endNumber){
+		int start;
+		int end=1000;
+		int size=(int) Math.ceil((endNumber-end)/threadNumber);
+		ArrayList<FutureTask> futureList=new ArrayList<FutureTask>();
+		for(int i=0;i<threadNumber;i++) {
+			start=end;
+			end=start+size;
+			end=end>9999?9999:end;
+		FutureTask furtureTask=new FutureTask(new SearchTask(start, end));
+		new Thread(furtureTask).start();
+		futureList.add(furtureTask);
+		}
+		
+		
+		return futureList;
+	}
 	
 	
 	

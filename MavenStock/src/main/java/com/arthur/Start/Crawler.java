@@ -20,9 +20,11 @@ import com.arthur.vo.Result;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import edu.emory.mathcs.backport.java.util.concurrent.ExecutionException;
+
 public class Crawler {
 	public static ArrayList<Detail> detailList;
- public static void main(String []args) throws IOException {
+ public static void main(String []args) throws IOException, InterruptedException, ExecutionException {
 	 CommonMethod.getStockDetail();
 	
 	 
