@@ -27,13 +27,19 @@ public class CommonMethod {
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
 		
 		
-		ArrayList<FutureTask>taskList= createThread(400,9999);
-		
-		
-		
-		for(int i=0;i<taskList.size();i++) {
-			detailList=loadList(detailList,(ArrayList<Detail>)taskList.get(i).get());
-		}
+//		ArrayList<FutureTask>taskList= createThread(600,10000);
+//		
+//		
+//		
+//		for(int i=0;i<taskList.size();i++) {
+//			ArrayList<Detail> sectionDetail=(ArrayList<Detail>) taskList.get(i).get();
+//			
+//			for(int j=0;j<sectionDetail.size();j++) {
+//				System.out.println(sectionDetail.get(j).toString());
+//			}
+//			
+//			detailList=loadList(detailList,sectionDetail);
+//		}
 		
 		
 		
@@ -48,31 +54,31 @@ public class CommonMethod {
 		 
 //1108 	1222	1225 
 		 
-//		 ArrayList<Integer> stockList=new ArrayList<Integer>();
-//		 stockList.add(2812);
-//		 stockList.add(6581);
-//		 stockList.add(2886);
-//		 stockList.add(1617);
-//		 stockList.add(3402);
-//		 stockList.add(5403);
-//		 stockList.add(8049);
-//		 stockList.add(1737);
-//		 stockList.add(2423);
-//		 stockList.add(3071);
-//		 stockList.add(3537);
-//		 stockList.add(6593);
-//		 stockList.add(9924);
-//		 stockList.add(2327);
-//		 stockList.add(6441);
-//		 for(int i=0;i<stockList.size();i++) {
-//			 try {
-//				 detailList.add(getDetail(stockList.get(i)));
-//			 System.out.println("----------------------");
-//			 }catch(Exception e) {
-//				 System.out.println(stockList.get(i)+"Data not found");
-//				 System.out.println("----------------------");
-//			 }
-//		 }
+		 ArrayList<Integer> stockList=new ArrayList<Integer>();
+		 stockList.add(2812);
+		 stockList.add(6581);
+		 stockList.add(2886);
+		 stockList.add(1617);
+		 stockList.add(3402);
+		 stockList.add(5403);
+		 stockList.add(8049);
+		 stockList.add(1737);
+		 stockList.add(2423);
+		 stockList.add(3071);
+		 stockList.add(3537);
+		 stockList.add(6593);
+		 stockList.add(9924);
+		 stockList.add(2327);
+		 stockList.add(6441);
+		 for(int i=0;i<stockList.size();i++) {
+			 try {
+				 detailList.add(getDetail(stockList.get(i)));
+			 System.out.println("----------------------");
+			 }catch(Error e) {
+				 System.out.println(stockList.get(i)+"Data not found");
+				 System.out.println("----------------------");
+			 }
+		 }
 		 
 		 
 		 
@@ -241,7 +247,7 @@ public static Detail getDetail(int id) throws IOException {
 			ID=id+"";
 		}
 		
-		System.out.println("ID= "+ID);
+//		System.out.println("ID= "+ID);
 		
 		 Document doc= Jsoup.connect("https://www.wantgoo.com/stock/astock/basic?stockno="+ID).timeout(5000).get();
 //	   	 System.out.println(doc.title());
@@ -262,14 +268,14 @@ public static Detail getDetail(int id) throws IOException {
 		int year=Integer.parseInt(getDay().substring(0,4));
 		int quarter = 0;
 		
-		if(now>Integer.parseInt(year+"0215") && now < Integer.parseInt(year+"0515")) {
+		if(now>=Integer.parseInt(year+"0215") && now < Integer.parseInt(year+"0515")) {
 			year=year-1;
 			quarter=4;
-		}else if(now>Integer.parseInt(year+"0515") && now < Integer.parseInt(year+"0815")) {
+		}else if(now>=Integer.parseInt(year+"0515") && now < Integer.parseInt(year+"0815")) {
 			quarter=1;
-		}else if(now>Integer.parseInt(year+"0815") && now < Integer.parseInt(year+"1115")) {
+		}else if(now>=Integer.parseInt(year+"0815") && now < Integer.parseInt(year+"1115")) {
 			quarter=2;
-		}else if(now>Integer.parseInt(year+"1115") || now<Integer.parseInt(year+"0215")) {
+		}else if(now>=Integer.parseInt(year+"1115") || now<Integer.parseInt(year+"0215")) {
 			quarter=3;
 		}
 		
@@ -857,16 +863,20 @@ public static Detail getDetail(int id) throws IOException {
 	}
 	
 	
-	//建立多執行緒來跑 參數threadNumber:要開幾個執行緒  endNumber:要查到第幾號
+	//建立多執行緒來跑 參數threadNumber:要開幾個執行緒  endNumber:要查到第幾號(不包含這一號)
 	public static ArrayList<FutureTask> createThread(int threadNumber,int endNumber){
+		System.out.println("endNumber= "+endNumber+" ,threadNumber= "+threadNumber);
 		int start;
 		int end=1000;
-		int size=(int) Math.ceil((endNumber-end)/threadNumber);
+		int size=(int) Math.ceil((endNumber*1.0-end*1.0)/threadNumber*1.0);
+		
+		System.out.println("size= "+size);
 		ArrayList<FutureTask> futureList=new ArrayList<FutureTask>();
 		for(int i=0;i<threadNumber;i++) {
 			start=end;
 			end=start+size;
-			end=end>9999?9999:end;
+			end=end>endNumber?endNumber:end;
+			System.out.println("start= "+start+" ,end= "+end );
 		FutureTask furtureTask=new FutureTask(new SearchTask(start, end));
 		new Thread(furtureTask).start();
 		futureList.add(furtureTask);

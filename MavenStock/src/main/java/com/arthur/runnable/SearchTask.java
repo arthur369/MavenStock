@@ -34,6 +34,7 @@ public class SearchTask implements Callable{
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
 		 for(int i=start;i<end;i++) {
 			 try {
+//				System.out.println("search id= "+i); 
 			 detailList.add(CommonMethod.getDetail(i));
 			 }catch(Exception e) {
 				 System.out.println(i+"Data not found");
