@@ -27,19 +27,19 @@ public class CommonMethod {
 		ArrayList<Detail> detailList=new ArrayList<Detail>();
 		
 		
-//		ArrayList<FutureTask>taskList= createThread(600,10000);
-//		
-//		
-//		
-//		for(int i=0;i<taskList.size();i++) {
-//			ArrayList<Detail> sectionDetail=(ArrayList<Detail>) taskList.get(i).get();
-//			
-//			for(int j=0;j<sectionDetail.size();j++) {
-//				System.out.println(sectionDetail.get(j).toString());
-//			}
-//			
-//			detailList=loadList(detailList,sectionDetail);
-//		}
+		ArrayList<FutureTask>taskList= createThread(600,10000);
+		
+		
+		
+		for(int i=0;i<taskList.size();i++) {
+			ArrayList<Detail> sectionDetail=(ArrayList<Detail>) taskList.get(i).get();
+			
+			for(int j=0;j<sectionDetail.size();j++) {
+				System.out.println(sectionDetail.get(j).toString());
+			}
+			
+			detailList=loadList(detailList,sectionDetail);
+		}
 		
 		
 		
@@ -54,31 +54,31 @@ public class CommonMethod {
 		 
 //1108 	1222	1225 
 		 
-		 ArrayList<Integer> stockList=new ArrayList<Integer>();
-		 stockList.add(2812);
-		 stockList.add(6581);
-		 stockList.add(2886);
-		 stockList.add(1617);
-		 stockList.add(3402);
-		 stockList.add(5403);
-		 stockList.add(8049);
-		 stockList.add(1737);
-		 stockList.add(2423);
-		 stockList.add(3071);
-		 stockList.add(3537);
-		 stockList.add(6593);
-		 stockList.add(9924);
-		 stockList.add(2327);
-		 stockList.add(6441);
-		 for(int i=0;i<stockList.size();i++) {
-			 try {
-				 detailList.add(getDetail(stockList.get(i)));
-			 System.out.println("----------------------");
-			 }catch(Error e) {
-				 System.out.println(stockList.get(i)+"Data not found");
-				 System.out.println("----------------------");
-			 }
-		 }
+//		 ArrayList<Integer> stockList=new ArrayList<Integer>();
+//		 stockList.add(2812);
+//		 stockList.add(6581);
+//		 stockList.add(2886);
+//		 stockList.add(1617);
+//		 stockList.add(3402);
+//		 stockList.add(5403);
+//		 stockList.add(8049);
+//		 stockList.add(1737);
+//		 stockList.add(2423);
+//		 stockList.add(3071);
+//		 stockList.add(3537);
+//		 stockList.add(6593);
+//		 stockList.add(9924);
+//		 stockList.add(2327);
+//		 stockList.add(6441);
+//		 for(int i=0;i<stockList.size();i++) {
+//			 try {
+//				 detailList.add(getDetail(stockList.get(i)));
+//			 System.out.println("----------------------");
+//			 }catch(Error e) {
+//				 System.out.println(stockList.get(i)+"Data not found");
+//				 System.out.println("----------------------");
+//			 }
+//		 }
 		 
 		 
 		 
@@ -268,14 +268,14 @@ public static Detail getDetail(int id) throws IOException {
 		int year=Integer.parseInt(getDay().substring(0,4));
 		int quarter = 0;
 		
-		if(now>=Integer.parseInt(year+"0215") && now < Integer.parseInt(year+"0515")) {
+		if(now>=Integer.parseInt(year+"0220") && now < Integer.parseInt(year+"0520")) {
 			year=year-1;
 			quarter=4;
-		}else if(now>=Integer.parseInt(year+"0515") && now < Integer.parseInt(year+"0815")) {
+		}else if(now>=Integer.parseInt(year+"0520") && now < Integer.parseInt(year+"0820")) {
 			quarter=1;
-		}else if(now>=Integer.parseInt(year+"0815") && now < Integer.parseInt(year+"1115")) {
+		}else if(now>=Integer.parseInt(year+"0820") && now < Integer.parseInt(year+"1120")) {
 			quarter=2;
-		}else if(now>=Integer.parseInt(year+"1115") || now<Integer.parseInt(year+"0215")) {
+		}else if(now>=Integer.parseInt(year+"1120") || now<Integer.parseInt(year+"0220")) {
 			quarter=3;
 		}
 		
